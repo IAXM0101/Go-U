@@ -101,6 +101,26 @@ export default {
 				.catch(function (err) {
 					console.log(err);
 				});
+		},
+		modify_password({ commit, state }, payload) {
+			return new Promise((resolve, reject) => {
+				Vue.axios
+					.post(
+						store.state.serverAPI.modifyPsw,
+						qs.stringify({
+							token: state.token,
+							password: payload
+						})
+					)
+					.then(function (res) {
+						if (res.data.state) {
+							resolve();
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+			})
 		}
 	}
 }

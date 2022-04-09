@@ -5,6 +5,7 @@ export default {
         login: serverIp + '/login.do',
         register: serverIp + '/register.do',
         modifyInfo: serverIp + '/modifyInfo.do',
+        modifyPsw: serverIp + '/modifyPsw.do',
         chat: serverIp + '/chat.do',
         getAllGoods: serverIp + '/getAllGoods.do',
         searchGoods: serverIp + '/searchGoods.do',
