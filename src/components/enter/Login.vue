@@ -56,21 +56,11 @@
 					});
 			},
 			getCart() {
-				let self = this;
-				this.$axios
-					.post(
-						this.$store.state.serverAPI.getCart,
-						qs.stringify(this.formdata)
-					)
-					.then(function (res) {
-						self.$store.commit({
-							type: "updateCartList",
-							cartList: res.data,
-						});
-					})
-					.catch(function (err) {
-						console.log(err);
-					});
+				this.$store.dispatch({
+					type: "GET_CART_LIST",
+					api: this.$store.state.serverAPI.getCart,
+					data: this.formdata
+				})
 			},
 		},
 	};

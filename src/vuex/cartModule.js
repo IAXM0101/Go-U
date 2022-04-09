@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import qs from "Qs";
+
 export default {
     state: () => ({
         cartList: [],
@@ -9,7 +12,7 @@ export default {
         }
     },
     mutations: {
-        updateCartList(state, payload) {
+        UPDATE_CART_LIST(state, payload) {
             state.cartList = payload.cartList;
 
             sessionStorage.setItem(
@@ -33,5 +36,23 @@ export default {
 
             sessionStorage.removeItem("cartList");
         },
-    }
+    },
+    actions: {
+        GET_CART_LIST({ commit, state }, payload) {
+            Vue.axios
+                .post(
+                    payload.api,
+                    qs.stringify(payload.data)
+                )
+                .then(function (res) {
+                    commit({
+                        type: "UPDATE_CART_LIST",
+                        cartList: res.data,
+                    });
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+        }
+    },
 }
