@@ -114,7 +114,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (sessionStorage.getItem("isLogin") === "true") {
+		if (sessionStorage.getItem("token")) {
 			next();
 		} else {
 			next({

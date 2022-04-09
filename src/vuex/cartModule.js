@@ -12,7 +12,7 @@ export default {
         }
     },
     mutations: {
-        UPDATE_CART_LIST(state, payload) {
+        update_cartList(state, payload) {
             state.cartList = payload.cartList;
 
             sessionStorage.setItem(
@@ -38,7 +38,7 @@ export default {
         },
     },
     actions: {
-        GET_CART_LIST({ commit, state }, payload) {
+        get_cartList({ commit, state }, payload) {
             Vue.axios
                 .post(
                     payload.api,
@@ -46,7 +46,7 @@ export default {
                 )
                 .then(function (res) {
                     commit({
-                        type: "UPDATE_CART_LIST",
+                        type: "update_cartList",
                         cartList: res.data,
                     });
                 })

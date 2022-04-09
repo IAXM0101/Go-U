@@ -4,6 +4,7 @@ export default {
     state: () => ({
         login: serverIp + '/login.do',
         register: serverIp + '/register.do',
+        modifyInfo: serverIp + '/modifyInfo.do',
         chat: serverIp + '/chat.do',
         getAllGoods: serverIp + '/getAllGoods.do',
         searchGoods: serverIp + '/searchGoods.do',

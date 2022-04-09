@@ -31,8 +31,8 @@
 		},
 		methods: {
 			...mapActions({
-				sendLogin: "SEND_LOGIN",
-				getCart:"GET_CART_LIST"
+				sendLogin: "send_login",
+				getCart:"get_cartList"
 			}),
 			loginCilck() {
 				let self = this;

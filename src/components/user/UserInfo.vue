@@ -3,7 +3,7 @@
 		<div class="info-contain">
 			<div>
 				<div class="title">ID</div>
-				<div class="content">10001</div>
+				<div class="content">{{ formdata.userID }}</div>
 			</div>
 			<div>
 				<div class="title">账号</div>
@@ -31,14 +31,14 @@
 					<input
 						class="radio-input"
 						type="radio"
-						value="0"
+						value="1"
 						v-model="formdata.sex"
 					/>
 					<label class="radio-label">男</label>
 					<input
 						class="radio-input"
 						type="radio"
-						value="1"
+						value="0"
 						v-model="formdata.sex"
 					/>
 					<label class="radio-label">女</label>
@@ -57,13 +57,13 @@
 					<input
 						class="text-input"
 						type="date"
-						v-model="formdata.date"
+						v-model="formdata.birthday"
 					/>
 				</div>
 			</div>
 			<div>
 				<button class="commit-btn" @click="commit">提交</button>
-				<button class="restore-btn">还原</button>
+				<button class="restore-btn" @click="reset">还原</button>
 			</div>
 		</div>
 		<div class="avatar-contain">
@@ -81,20 +81,48 @@
 </template>
 
 <script>
+	import { mapGetters, mapActions } from "vuex";
 	export default {
 		data() {
 			return {
 				formdata: {
-					account: "sys",
-					nick: "世一上",
-					sex: "2",
-					date: "2022-02-28",
+					userID: "",
+					account: "",
+					nick: "",
+					sex: "",
+					birthday: "",
 				},
 			};
 		},
+		computed: {
+			...mapGetters(["getUserInfo"]),
+		},
 		methods: {
+			...mapActions({
+				modifyInfo:"modify_userInfo"
+			}),
 			commit() {
+				let data = {}
+				let isModify = false;
+				for (const key in this.formdata) {
+					if (Object.hasOwnProperty.call(this.formdata, key)) {
+						if (this.formdata[key] !== this.getUserInfo[key]){
+							isModify = true;
+							data[key] = this.formdata[key];
+						}
+					}
+				}
 
+				if(isModify){
+					this.modifyInfo(data)
+				}
+			},
+			reset() {
+				for (const key in this.formdata) {
+					if (Object.hasOwnProperty.call(this.formdata, key)) {
+						this.formdata[key] = this.getUserInfo[key];
+					}
+				}
 			},
 			uploadImg() {
 				this.$refs.fileInput.click();
@@ -107,6 +135,9 @@
 					console.log(reader.result);
 				};
 			},
+		},
+		created() {
+			this.reset();
 		},
 	};
 </script>
