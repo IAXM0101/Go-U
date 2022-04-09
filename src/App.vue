@@ -16,11 +16,12 @@
 				});
 			}
 
+			let token = sessionStorage.getItem("token");
 			let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-			if (userInfo) {
-				this.$store.commit({
-					type: "addAllInfo",
-					userInfo: JSON.parse(sessionStorage.getItem("userInfo")),
+			if (token) {
+				this.$store.commit("addAllInfo", {
+					token,
+					userInfo,
 				});
 			}
 		},
@@ -43,7 +44,7 @@
 	#app,
 	#app > * {
 		position: relative;
-        margin: 0 auto;
+		margin: 0 auto;
 		overflow: hidden;
 	}
 

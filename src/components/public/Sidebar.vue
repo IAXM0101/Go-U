@@ -3,7 +3,7 @@
 		<!-- 头像 -->
 		<div v-if="isLogin" @click="logout">
 			<div class="avatar">
-				<img :src="userInfo.avatar" width="100%" height="100%" />
+				<img :src="getAvatar" width="100%" height="100%" />
 			</div>
 		</div>
 		<!-- 登录 -->
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+	import { mapGetters } from "vuex";
 	export default {
 		props: [
 			"hideUser",
@@ -51,18 +52,7 @@
 			"hideToTop",
 		],
 		computed: {
-			isLogin() {
-				return this.$store.state.userModule.isLogin;
-			},
-			cartCount() {
-				return this.$store.getters.cartLength;
-			},
-			chatCount() {
-				return this.$store.getters.chatLength;
-			},
-			userInfo() {
-				return this.$store.state.userModule;
-			},
+			...mapGetters(["isLogin", "getAvatar", "cartCount", "chatCount"]),
 		},
 		methods: {
 			logout() {

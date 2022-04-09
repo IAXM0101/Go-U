@@ -7,7 +7,7 @@ export default {
         orderInfo: {},
     }),
     getters: {
-        cartLength(state, getters) {
+        cartCount(state, getters) {
             return state.cartList.length > 0 ? state.cartList.length : 0
         }
     },

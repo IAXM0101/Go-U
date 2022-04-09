@@ -5,7 +5,7 @@ export default {
         chatList: []
     }),
     getters: {
-        chatLength(state, getters) {
+        chatCount(state, getters) {
             return state.chatList.length > 0 ? state.chatList.length : 0
         },
         getTalker(state, getters) {

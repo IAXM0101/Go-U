@@ -13,13 +13,13 @@
 					没有账号？立即注册 》
 				</router-link>
 			</p>
-			<button @click="login">登录</button>
+			<button @click="loginCilck">登录</button>
 		</div>
 	</div>
 </template>
 
 <script>
-	import qs from "Qs";
+	import { mapActions } from "vuex";
 	export default {
 		data() {
 			return {
@@ -30,37 +30,32 @@
 			};
 		},
 		methods: {
-			login() {
+			...mapActions({
+				sendLogin: "SEND_LOGIN",
+				getCart:"GET_CART_LIST"
+			}),
+			loginCilck() {
 				let self = this;
-				this.$axios
-					.post(
-						this.$store.state.serverAPI.login,
-						qs.stringify(this.formdata)
-					)
-					.then(function (res) {
-						self.$store.commit({
-							type: "addAllInfo",
-							userInfo: res.data,
-						});
 
+				this.sendLogin({
+						api: this.$store.state.serverAPI.login,
+						data: this.formdata
+					})
+					.then(() => {
 						if (self.$route.query.redirect) {
 							self.$router.push({ path: self.$route.query.redirect });
 						} else {
 							self.$router.push({ path: "/" });
 						}
 
-						self.getCart();
+						this.getCart({
+							api: this.$store.state.serverAPI.getCart,
+							data: this.formdata
+						});
 					})
-					.catch(function (err) {
+					.catch((err) => {
 						console.log(err);
 					});
-			},
-			getCart() {
-				this.$store.dispatch({
-					type: "GET_CART_LIST",
-					api: this.$store.state.serverAPI.getCart,
-					data: this.formdata
-				})
 			},
 		},
 	};
