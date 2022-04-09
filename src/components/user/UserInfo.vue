@@ -99,22 +99,14 @@
 		},
 		methods: {
 			...mapActions({
-				modifyInfo:"modify_userInfo"
+				modify_userInfo: "modify_userInfo",
 			}),
 			commit() {
-				let data = {}
-				let isModify = false;
-				for (const key in this.formdata) {
-					if (Object.hasOwnProperty.call(this.formdata, key)) {
-						if (this.formdata[key] !== this.getUserInfo[key]){
-							isModify = true;
-							data[key] = this.formdata[key];
-						}
-					}
-				}
+				let data = this.isModify();
 
-				if(isModify){
-					this.modifyInfo(data)
+				if (data) {
+					console.log(data);
+					this.modify_userInfo(data);
 				}
 			},
 			reset() {
@@ -135,9 +127,32 @@
 					console.log(reader.result);
 				};
 			},
+			isModify() {
+				let flag = false;
+				let data = {};
+				for (const key in this.formdata) {
+					if (Object.hasOwnProperty.call(this.formdata, key)) {
+						if (this.formdata[key] !== this.getUserInfo[key]) {
+							flag = true;
+							data[key] = this.formdata[key];
+						}
+					}
+				}
+				return flag ? data : false;
+			},
 		},
 		created() {
 			this.reset();
+		},
+		beforeRouteLeave(to, from, next) {
+			if (this.isModify()) {
+				let flag = confirm("您有数据未保存，是否离开");
+				if (flag) {
+					next();
+				}
+			} else {
+				next();
+			}
 		},
 	};
 </script>
