@@ -1,7 +1,7 @@
 <template>
 	<div id="UserAddress">
 		<div class="header">
-			<button>新增收货地址</button>
+			<button @click="popup">新增收货地址</button>
 			<span>您已创建<i>1</i>个收货地址，最多可创建<i>25</i>个</span>
 		</div>
 		<ul class="list">
@@ -43,16 +43,27 @@
 				</div>
 			</li>
 		</ul>
+		<EditAddress v-show="canEditAddress"></EditAddress>
 	</div>
 </template>
 
 <script>
+	import EditAddress from "@/components/user/EditAddress";
 	export default {
 		data() {
 			return {
 				defaultAddr: "0",
+				canEditAddress: false
 			};
 		},
+		components: {
+			EditAddress,
+		},
+		methods:{
+			popup(){
+				this.canEditAddress = true;
+			}
+		}
 	};
 </script>
 
@@ -67,13 +78,13 @@
 	.header span {
 		font-size: 14px;
 		margin: 0 10px;
-        color: gray;
+		color: gray;
 	}
 
 	.header i {
 		font-size: 14px;
 		margin: 0 5px;
-        color: rgb(0, 0, 0);
+		color: rgb(0, 0, 0);
 	}
 
 	.list {

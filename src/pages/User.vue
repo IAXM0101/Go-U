@@ -1,6 +1,6 @@
 <template>
 	<div id="User">
-		<Topbar :type=2 />
+		<Topbar :type="2" />
 		<Sidebar :hideUser="true" />
 
 		<div class="main-contain">
