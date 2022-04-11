@@ -34,6 +34,9 @@ export default {
 		getAddrList(state, getters) {
 			return state.addrList
 		},
+		getAddrCount(state, getters) {
+			return state.addrList.length > 0 ? state.addrList.length : 0;
+		},
 		getDefaultAddr(state, getters) {
 			return state.addrList.findIndex(value => value.isDefault == "true")
 		},
