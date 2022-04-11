@@ -7,7 +7,11 @@
 		<ul class="list">
 			<li v-for="(item, index) in addrList">
 				<div class="operate-contain">
-					<input type="radio" :value="index" v-model="getDefaultAddr" />
+					<input
+						type="radio"
+						:value="index"
+						v-model="getDefaultAddr"
+					/>
 					<label>默认地址</label>
 					<span v-show="item.nickAddr" v-text="item.nickAddr"></span>
 				</div>
@@ -35,7 +39,7 @@
 				</div>
 				<div class="btn-contain">
 					<button>编辑</button>
-					<button>删除</button>
+					<button @click="delAddrClick(item.addrID)">删除</button>
 				</div>
 			</li>
 		</ul>
@@ -55,7 +59,7 @@
 		computed: {
 			...mapGetters({
 				addrList: "getAddrList",
-				getDefaultAddr:"getDefaultAddr"
+				getDefaultAddr: "getDefaultAddr",
 			}),
 		},
 		components: {
@@ -64,9 +68,19 @@
 		methods: {
 			...mapActions({
 				get_addrList: "get_addrList",
+				del_addr: "del_addr",
 			}),
 			popup() {
 				this.canEditAddress = true;
+			},
+			delAddrClick(addrID) {
+				this.del_addr(addrID)
+					.then(() => {
+						alert("删除成功");
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			},
 		},
 		created() {

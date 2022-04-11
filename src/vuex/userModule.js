@@ -75,6 +75,10 @@ export default {
 		update_addr(state, payload) {
 			state.addrList.push(payload);
 		},
+		mutation_del_addr(state, payload) {
+			let idx = state.addrList.findIndex(value => value.addrID == payload)
+			state.addrList.splice(idx, 1);
+		},
 	},
 	actions: {
 		send_login({ commit, state }, payload) {
@@ -171,6 +175,27 @@ export default {
 					.then(function (res) {
 						if (res.data.state) {
 							commit("update_addr", payload);
+							resolve();
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+			})
+		},
+		del_addr({ commit, state }, payload) {
+			return new Promise((resolve, reject) => {
+				Vue.axios
+					.post(
+						store.state.serverAPI.delAddr,
+						qs.stringify({
+							token: state.token,
+							addrID: payload,
+						})
+					)
+					.then(function (res) {
+						if (res.data.state) {
+							commit("mutation_del_addr", payload);
 							resolve();
 						}
 					})
