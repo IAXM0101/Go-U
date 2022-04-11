@@ -12,6 +12,8 @@ export default {
 			avatar: null,	// 头像
 			sex: null,		// 性别
 			birthday: null,	// 生日
+			qq: null,		// QQ
+			wechat: null,	// 微信
 			phone: null,	// 手机号码
 			email: null,	// 邮箱地址
 			address: [],	// 收货地址

@@ -5,17 +5,17 @@
 				<i class="iconfont icon-QQ"></i>
 			</div>
 			<div class="text-contain">
-				<span>绑定QQ账号</span>
+				<span>绑定QQ</span>
 			</div>
 			<div class="text-contain">
-				<b>已绑定</b>
+				<b v-if="userInfo.qq">已绑定</b>
 			</div>
 			<div class="btn-contain">
-				<b v-if="true">解绑</b>
+				<b v-if="userInfo.qq">解绑</b>
 				<b v-else>绑定</b>
 			</div>
 			<div class="btn-contain">
-				<span>1546890226</span>
+				<span>{{ userInfo.qq }}</span>
 			</div>
 		</li>
 		<li>
@@ -23,17 +23,17 @@
 				<i class="iconfont icon-weixin"></i>
 			</div>
 			<div class="text-contain">
-				<span>绑定QQ账号</span>
+				<span>绑定微信</span>
 			</div>
 			<div class="text-contain">
-				<b>已绑定</b>
+				<b v-if="userInfo.wechat">已绑定</b>
 			</div>
 			<div class="btn-contain">
-				<b v-if="true">解绑</b>
+				<b v-if="userInfo.wechat">解绑</b>
 				<b v-else>绑定</b>
 			</div>
 			<div class="btn-contain">
-				<span>1546890226</span>
+				<span>{{ userInfo.wechat }}</span>
 			</div>
 		</li>
 		<li>
@@ -41,17 +41,17 @@
 				<i class="iconfont icon-youxiang"></i>
 			</div>
 			<div class="text-contain">
-				<span>绑定邮箱账号</span>
+				<span>绑定邮箱</span>
 			</div>
 			<div class="text-contain">
-				<b>已绑定</b>
+				<b v-if="userInfo.email">已绑定</b>
 			</div>
 			<div class="btn-contain">
-				<b v-if="true">解绑</b>
+				<b v-if="userInfo.email">解绑</b>
 				<b v-else>绑定</b>
 			</div>
 			<div class="btn-contain">
-				<span>sys@gmail.com</span>
+				<span>{{ userInfo.email }}</span>
 			</div>
 		</li>
 		<li>
@@ -59,26 +59,32 @@
 				<i class="iconfont icon-shouji4"></i>
 			</div>
 			<div class="text-contain">
-				<span>绑定手机号码</span>
+				<span>绑定手机</span>
 			</div>
 			<div class="text-contain">
-				<b>已绑定</b>
+				<b v-if="userInfo.phone">已绑定</b>
 			</div>
 			<div class="btn-contain">
-				<b v-if="true">解绑</b>
+				<b v-if="userInfo.phone">解绑</b>
 				<b v-else>绑定</b>
 			</div>
 			<div class="btn-contain">
-				<span>18066669999</span>
+				<span>{{ userInfo.phone }}</span>
 			</div>
 		</li>
 	</ul>
 </template>
 
 <script>
+	import { mapGetters } from "vuex";
 	export default {
 		data() {
 			return {};
+		},
+		computed: {
+			...mapGetters({
+				userInfo: "getUserInfo",
+			}),
 		},
 		methods: {},
 	};
