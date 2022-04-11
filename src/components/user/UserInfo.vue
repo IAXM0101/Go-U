@@ -103,10 +103,14 @@
 			}),
 			commit() {
 				let data = this.isModify();
-
 				if (data) {
-					console.log(data);
-					this.modify_userInfo(data);
+					this.modify_userInfo(data)
+						.then(() => {
+							alert("修改成功！");
+						})
+						.catch((err) => {
+							console.log(err);
+						});
 				}
 			},
 			reset() {

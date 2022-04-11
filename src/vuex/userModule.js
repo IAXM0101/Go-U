@@ -118,22 +118,25 @@ export default {
 
 		},
 		modify_userInfo({ commit, state }, payload) {
-			Vue.axios
-				.post(
-					store.state.serverAPI.modifyInfo,
-					qs.stringify({
-						token: state.token,
-						data: JSON.stringify(payload)
+			return new Promise((resolve, reject) => {
+				Vue.axios
+					.post(
+						store.state.serverAPI.modifyInfo,
+						qs.stringify({
+							token: state.token,
+							data: JSON.stringify(payload)
+						})
+					)
+					.then(function (res) {
+						if (res.data.state) {
+							commit("update_userInfo", payload);
+							resolve();
+						}
 					})
-				)
-				.then(function (res) {
-					if (res.data.state) {
-						commit("update_userInfo", payload);
-					}
-				})
-				.catch(function (err) {
-					console.log(err);
-				});
+					.catch(function (err) {
+						reject(err);
+					});
+			})
 		},
 		modify_password({ commit, state }, payload) {
 			return new Promise((resolve, reject) => {
