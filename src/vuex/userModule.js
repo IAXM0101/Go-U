@@ -75,6 +75,14 @@ export default {
 		update_addr(state, payload) {
 			state.addrList.push(payload);
 		},
+		mutation_edit_addr(state, payload) {
+			let addr = state.addrList.find(value => value.addrID == payload.addrID);
+			for (const key in addr) {
+				if (Object.hasOwnProperty.call(addr, key)) {
+					addr[key] = payload[key];
+				}
+			}
+		},
 		mutation_del_addr(state, payload) {
 			let idx = state.addrList.findIndex(value => value.addrID == payload)
 			state.addrList.splice(idx, 1);
@@ -175,6 +183,34 @@ export default {
 					.then(function (res) {
 						if (res.data.state) {
 							commit("update_addr", payload);
+							resolve();
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+			})
+		},
+		edit_addr({ commit, state }, payload) {
+			return new Promise((resolve, reject) => {
+				Vue.axios
+					.post(
+						store.state.serverAPI.editAddr,
+						qs.stringify({
+							token: state.token,
+							addrID: payload.addrID,
+							isDefault: payload.isDefault,
+							name: payload.name,
+							region: payload.region,
+							addr: payload.addr,
+							phone: payload.phone,
+							email: payload.email,
+							nickAddr: payload.nickAddr,
+						})
+					)
+					.then(function (res) {
+						if (res.data.state) {
+							commit("mutation_edit_addr", payload);
 							resolve();
 						}
 					})

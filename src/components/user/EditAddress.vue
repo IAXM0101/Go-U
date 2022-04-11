@@ -52,13 +52,22 @@
 						父母家
 					</span>
 				</div>
-				<div class="row">
+				<div class="row" v-if="isCreate">
 					<label class="label"></label>
 					<button
 						:class="this.canSend ? 'submit-btn' : 'ban-submit-btn'"
 						@click="submit"
 					>
-						保存收货信息
+						新增收货信息
+					</button>
+				</div>
+				<div class="row" v-else>
+					<label class="label"></label>
+					<button
+						:class="this.canSend ? 'submit-btn' : 'ban-submit-btn'"
+						@click="editClick"
+					>
+						修改收货信息
 					</button>
 				</div>
 			</div>
@@ -71,6 +80,8 @@
 	export default {
 		data() {
 			return {
+				isCreate: true,
+				addrID: 0,
 				isDefault: "false",
 				name: "",
 				region: "",
@@ -92,10 +103,11 @@
 		},
 		methods: {
 			...mapActions({
-				add_addr: "add_addr",
+				add_addr: "add_addr",edit_addr:"edit_addr"
 			}),
 			closeClick() {
 				this.$parent.canEditAddress = false;
+				this.clearInput();
 			},
 			setNickAddr(val) {
 				this.nickAddr = val;
@@ -122,7 +134,31 @@
 						});
 				}
 			},
-			clearInput(){
+			editClick() {
+				let self = this;
+				if (this.canSend) {
+					this.edit_addr({
+						addrID: this.addrID,
+						isDefault: this.isDefault,
+						name: this.name,
+						region: this.region,
+						addr: this.addr,
+						phone: this.phone,
+						email: this.email,
+						nickAddr: this.nickAddr,
+					})
+						.then(() => {
+							alert("修改成功！");
+							self.$parent.canEditAddress = false;
+							self.clearInput();
+						})
+						.catch(() => {
+							console.log(err);
+						});
+				}
+			},
+			clearInput() {
+				this.addrID = "";
 				this.isDefault = "false";
 				this.name = "";
 				this.region = "";
@@ -130,7 +166,7 @@
 				this.phone = "";
 				this.email = "";
 				this.nickAddr = "";
-			}
+			},
 		},
 	};
 </script>

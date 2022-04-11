@@ -8,6 +8,7 @@ export default {
         modifyPsw: serverIp + '/modifyPsw.do',
         getAddrList: serverIp + '/getAddrList.do',
         addAddr: serverIp + '/addAddr.do',
+        editAddr: serverIp + '/editAddr.do',
         delAddr: serverIp + '/delAddr.do',
         chat: serverIp + '/chat.do',
         getAllGoods: serverIp + '/getAllGoods.do',

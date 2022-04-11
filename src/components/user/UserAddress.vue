@@ -38,12 +38,12 @@
 					</div>
 				</div>
 				<div class="btn-contain">
-					<button>编辑</button>
+					<button @click="editAddrClick(index)">编辑</button>
 					<button @click="delAddrClick(item.addrID)">删除</button>
 				</div>
 			</li>
 		</ul>
-		<EditAddress v-show="canEditAddress"></EditAddress>
+		<EditAddress v-show="canEditAddress" ref="editAddress"></EditAddress>
 	</div>
 </template>
 
@@ -71,6 +71,16 @@
 				del_addr: "del_addr",
 			}),
 			popup() {
+				this.$refs.editAddress.isCreate = true;
+				this.canEditAddress = true;
+			},
+			editAddrClick(idx) {
+				for (const key in this.addrList[idx]) {
+					if (Object.hasOwnProperty.call(this.addrList[idx], key)) {
+						this.$refs.editAddress[key] = this.addrList[idx][key];
+					}
+				}
+				this.$refs.editAddress.isCreate = false;
 				this.canEditAddress = true;
 			},
 			delAddrClick(addrID) {
