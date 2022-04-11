@@ -15,7 +15,8 @@ export default {
 			phone: null,	// 手机号码
 			email: null,	// 邮箱地址
 			address: [],	// 收货地址
-		}
+		},
+		addrList: []// 收货地址
 	}),
 	getters: {
 		isLogin(state, getters) {
@@ -29,7 +30,13 @@ export default {
 		},
 		getAvatar(state, getters) {
 			return state.userInfo.avatar ? state.userInfo.avatar : "https://tse1-mm.cn.bing.net/th/id/OIP-C.JPaFw0vH2f6Qy44aUfZ4jgAAAA?pid=ImgDet&rs=1"
-		}
+		},
+		getAddrList(state, getters) {
+			return state.addrList
+		},
+		getDefaultAddr(state, getters) {
+			return state.addrList.findIndex(value => value.isDefault == "true")
+		},
 	},
 	mutations: {
 		addAllInfo(state, payload) {
@@ -61,6 +68,12 @@ export default {
 			}
 			sessionStorage.removeItem("token");
 			sessionStorage.removeItem("userInfo");
+		},
+		update_addrList(state, payload) {
+			state.addrList = payload;
+		},
+		update_addr(state, payload) {
+			state.addrList.push(payload);
 		},
 	},
 	actions: {
@@ -114,6 +127,50 @@ export default {
 					)
 					.then(function (res) {
 						if (res.data.state) {
+							resolve();
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+			})
+		},
+		get_addrList({ commit, state }) {
+			Vue.axios
+				.post(
+					store.state.serverAPI.getAddrList,
+					qs.stringify({
+						token: state.token,
+					})
+				)
+				.then(function (res) {
+					if (res.data.state) {
+						commit("update_addrList", res.data.result);
+					}
+				})
+				.catch(function (err) {
+					console.log(err);
+				});
+		},
+		add_addr({ commit, state }, payload) {
+			return new Promise((resolve,reject) => {
+				Vue.axios
+					.post(
+						store.state.serverAPI.addAddr,
+						qs.stringify({
+							token: state.token,
+							isDefault: payload.isDefault,
+							name: payload.name,
+							region: payload.region,
+							addr: payload.addr,
+							phone: payload.phone,
+							email: payload.email,
+							nickAddr: payload.nickAddr,
+						})
+					)
+					.then(function (res) {
+						if (res.data.state) {
+							commit("update_addr", payload);
 							resolve();
 						}
 					})

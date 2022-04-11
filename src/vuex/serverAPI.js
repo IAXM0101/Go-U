@@ -6,6 +6,8 @@ export default {
         register: serverIp + '/register.do',
         modifyInfo: serverIp + '/modifyInfo.do',
         modifyPsw: serverIp + '/modifyPsw.do',
+        getAddrList: serverIp + '/getAddrList.do',
+        addAddr: serverIp + '/addAddr.do',
         chat: serverIp + '/chat.do',
         getAllGoods: serverIp + '/getAllGoods.do',
         searchGoods: serverIp + '/searchGoods.do',

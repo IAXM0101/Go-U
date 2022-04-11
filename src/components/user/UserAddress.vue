@@ -5,36 +5,32 @@
 			<span>您已创建<i>1</i>个收货地址，最多可创建<i>25</i>个</span>
 		</div>
 		<ul class="list">
-			<li>
+			<li v-for="(item, index) in addrList">
 				<div class="operate-contain">
-					<input type="radio" value="0" v-model="defaultAddr" />
+					<input type="radio" :value="index" v-model="getDefaultAddr" />
 					<label>默认地址</label>
-					<span>家</span>
-					<span>学校</span>
-					<span>公司</span>
+					<span v-show="item.nickAddr" v-text="item.nickAddr"></span>
 				</div>
 				<div class="form">
 					<div>
 						<div class="title">收货人</div>
-						<div class="content">世一上</div>
+						<div class="content" v-text="item.name"></div>
 					</div>
 					<div>
 						<div class="title">所在地区</div>
-						<div class="content">广东广州市海珠区官洲街道</div>
+						<div class="content" v-text="item.region"></div>
 					</div>
 					<div>
 						<div class="title">地址</div>
-						<div class="content">
-							广东广州市海珠区官洲街道赤沙南约西巷7号每天惠超市
-						</div>
+						<div class="content" v-text="item.addr"></div>
 					</div>
 					<div>
 						<div class="title">手机</div>
-						<div class="content">18066669999</div>
+						<div class="content" v-text="item.phone"></div>
 					</div>
 					<div>
 						<div class="title">电子邮箱</div>
-						<div class="content">sys@gmail.com</div>
+						<div class="content" v-text="item.email"></div>
 					</div>
 				</div>
 				<div class="btn-contain">
@@ -48,22 +44,34 @@
 </template>
 
 <script>
+	import { mapGetters, mapActions } from "vuex";
 	import EditAddress from "@/components/user/EditAddress";
 	export default {
 		data() {
 			return {
-				defaultAddr: "0",
-				canEditAddress: false
+				canEditAddress: false,
 			};
+		},
+		computed: {
+			...mapGetters({
+				addrList: "getAddrList",
+				getDefaultAddr:"getDefaultAddr"
+			}),
 		},
 		components: {
 			EditAddress,
 		},
-		methods:{
-			popup(){
+		methods: {
+			...mapActions({
+				get_addrList: "get_addrList",
+			}),
+			popup() {
 				this.canEditAddress = true;
-			}
-		}
+			},
+		},
+		created() {
+			this.get_addrList();
+		},
 	};
 </script>
 
