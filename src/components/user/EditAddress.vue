@@ -7,10 +7,6 @@
 			</div>
 			<div class="info">
 				<div class="row">
-					<label class="label">默认地址</label>
-					<input type="checkBox" v-model="isDefault" />
-				</div>
-				<div class="row">
 					<label class="label">
 						<span class="star">*</span>收件人
 					</label>
@@ -82,7 +78,6 @@
 			return {
 				isCreate: true,
 				addrID: 0,
-				isDefault: "false",
 				name: "",
 				region: "",
 				addr: "",
@@ -116,7 +111,6 @@
 				let self = this;
 				if (this.canSend) {
 					this.add_addr({
-						isDefault: this.isDefault,
 						name: this.name,
 						region: this.region,
 						addr: this.addr,
@@ -139,7 +133,6 @@
 				if (this.canSend) {
 					this.edit_addr({
 						addrID: this.addrID,
-						isDefault: this.isDefault,
 						name: this.name,
 						region: this.region,
 						addr: this.addr,
@@ -159,7 +152,6 @@
 			},
 			clearInput() {
 				this.addrID = "";
-				this.isDefault = "false";
 				this.name = "";
 				this.region = "";
 				this.addr = "";

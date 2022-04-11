@@ -9,6 +9,7 @@ export default {
         getAddrList: serverIp + '/getAddrList.do',
         addAddr: serverIp + '/addAddr.do',
         editAddr: serverIp + '/editAddr.do',
+        editDefaultAddr: serverIp + '/editDefaultAddr.do',
         delAddr: serverIp + '/delAddr.do',
         chat: serverIp + '/chat.do',
         getAllGoods: serverIp + '/getAllGoods.do',

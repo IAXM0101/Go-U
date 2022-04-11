@@ -83,6 +83,14 @@ export default {
 				}
 			}
 		},
+		mutation_edit_default_addr(state, payload) {
+			state.addrList.forEach(value => {
+				value.isDefault = "false";
+				if (value.addrID === payload) {
+					value.isDefault = "true";
+				}
+			});
+		},
 		mutation_del_addr(state, payload) {
 			let idx = state.addrList.findIndex(value => value.addrID == payload)
 			state.addrList.splice(idx, 1);
@@ -165,13 +173,12 @@ export default {
 				});
 		},
 		add_addr({ commit, state }, payload) {
-			return new Promise((resolve,reject) => {
+			return new Promise((resolve, reject) => {
 				Vue.axios
 					.post(
 						store.state.serverAPI.addAddr,
 						qs.stringify({
 							token: state.token,
-							isDefault: payload.isDefault,
 							name: payload.name,
 							region: payload.region,
 							addr: payload.addr,
@@ -199,7 +206,6 @@ export default {
 						qs.stringify({
 							token: state.token,
 							addrID: payload.addrID,
-							isDefault: payload.isDefault,
 							name: payload.name,
 							region: payload.region,
 							addr: payload.addr,
@@ -218,6 +224,24 @@ export default {
 						reject(err);
 					});
 			})
+		},
+		edit_default_addr({ commit, state }, payload) {
+			Vue.axios
+				.post(
+					store.state.serverAPI.editDefaultAddr,
+					qs.stringify({
+						token: state.token,
+						addrID: payload,
+					})
+				)
+				.then(function (res) {
+					if (res.data.state) {
+						commit("mutation_edit_default_addr", payload);
+					}
+				})
+				.catch(function (err) {
+					console.log(err);
+				});
 		},
 		del_addr({ commit, state }, payload) {
 			return new Promise((resolve, reject) => {

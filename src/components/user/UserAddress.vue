@@ -2,17 +2,18 @@
 	<div id="UserAddress">
 		<div class="header">
 			<button @click="popup">新增收货地址</button>
-			<span>您已创建<i>1</i>个收货地址，最多可创建<i>25</i>个</span>
+			<span
+				>您已创建<i>1</i
+				>个收货地址，还可以创建<i>25</i
+				>个</span
+			>
 		</div>
 		<ul class="list">
 			<li v-for="(item, index) in addrList">
 				<div class="operate-contain">
-					<input
-						type="radio"
-						:value="index"
-						v-model="getDefaultAddr"
-					/>
+					<input type="radio" :value="index" v-model="defaultAddr" />
 					<label>默认地址</label>
+
 					<span v-show="item.nickAddr" v-text="item.nickAddr"></span>
 				</div>
 				<div class="form">
@@ -61,6 +62,14 @@
 				addrList: "getAddrList",
 				getDefaultAddr: "getDefaultAddr",
 			}),
+			defaultAddr: {
+				get() {
+					return this.getDefaultAddr;
+				},
+				set(val) {
+					this.edit_default_addr(this.addrList[val].addrID);
+				},
+			},
 		},
 		components: {
 			EditAddress,
@@ -69,6 +78,7 @@
 			...mapActions({
 				get_addrList: "get_addrList",
 				del_addr: "del_addr",
+				edit_default_addr:"edit_default_addr"
 			}),
 			popup() {
 				this.$refs.editAddress.isCreate = true;
