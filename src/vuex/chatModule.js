@@ -23,14 +23,25 @@ export default {
                 return talker
             }
         },
+        getChatAvatar(state, getters) {
+            if (state.currentChat) {
+                let avatar;
+                if (getters.getUserID === state.currentChat.talker1) {
+                    avatar = state.currentChat.avatar2
+                } else {
+                    avatar = state.currentChat.avatar1
+                }
+                return avatar
+            }
+        },
     },
     mutations: {
         mutation_get_chatList(state, payload) {
             state.chatList = payload.chatList
             state.currentChat = payload.chatList[0]
         },
-        updateCurrentChat(state, payload) {
-            state.currentChat = payload.currentChat
+        mutation_check_chatTarget(state, payload) {
+            state.currentChat = payload
         }
     },
     actions: {

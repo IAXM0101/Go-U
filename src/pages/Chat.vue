@@ -1,5 +1,5 @@
 <template>
-	<div id="Chat">
+	<div>
 		<Sidebar :hideChat="true" />
 
 		<div class="chat-panel">
@@ -27,16 +27,10 @@
 </script>
 
 <style scoped>
-	#Chat {
-		float: left;
-		position: relative;
-		width: 100%;
-	}
 	.chat-panel {
-		float: left;
 		position: relative;
 		width: 1150px;
 		height: 600px;
-		margin: 50px 50px 0;
+		margin: 50px auto 0;
 	}
 </style>

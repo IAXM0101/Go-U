@@ -1,17 +1,27 @@
 <template>
 	<div id="ChatPanel">
+		<!-- 顶部 -->
 		<div class="titie">
-			<div>{{ to }}</div>
+			<div class="title-avatar">
+				<img :src="getChatAvatar" class="title-avatar-img" />
+			</div>
+			<div>{{ getTalker }}</div>
 		</div>
+
+		<!-- 消息面板 -->
 		<div class="showMsg" ref="showMsg">
+			<!-- 消息 -->
 			<div
 				:class="{ [isMyMsg(item.from)]: true }"
 				v-for="item in messageList"
 			>
+				<!-- 头像 -->
 				<div class="avatarContain">
 					<img :src="userAvatar" />
 				</div>
+				<!-- 昵称 -->
 				<span class="nickContain">{{ item.nick }}</span>
+				<!-- 消息 -->
 				<p
 					class="msgContain"
 					v-if="item.msgType == 'text'"
@@ -19,6 +29,8 @@
 				></p>
 			</div>
 		</div>
+
+		<!-- 输入面板 -->
 		<div class="writeMsg">
 			<span class="iconBtn">
 				<i class="iconfont icon-biaoqing"></i>
@@ -43,7 +55,7 @@
 </template>
 
 <script>
-	import { mapActions } from "vuex";
+	import { mapGetters, mapActions } from "vuex";
 
 	export default {
 		data() {
@@ -53,14 +65,15 @@
 			};
 		},
 		computed: {
-			to() {
-				return this.$store.getters.getTalker;
-			},
+			...mapGetters({
+				getTalker: "getTalker",
+				getChatAvatar: "getChatAvatar",
+			}),
 			userNick() {
-				return this.$store.state.userModule.nick;
+				return this.$store.state.userModule.userInfo.nick;
 			},
 			userAvatar() {
-				return this.$store.state.userModule.avatar;
+				return this.$store.state.userModule.userInfo.avatar;
 			},
 		},
 		methods: {
@@ -68,7 +81,7 @@
 				get_chatList: "get_chatList",
 			}),
 			isMyMsg(from) {
-				return from === this.$store.state.userModule.userID
+				return from === this.$store.state.userModule.userInfo.userID
 					? "myMsg"
 					: "otherMsg";
 			},
@@ -78,9 +91,9 @@
 				if (content) {
 					let data = {
 						type: 1002,
-						to: this.to,
-						from: this.$store.state.userModule.userID,
-						nick: this.$store.state.userModule.nick,
+						to: this.getTalker,
+						from: this.$store.state.userModule.userInfo.userID,
+						nick: this.$store.state.userModule.userInfo.nick,
 						msgType: "text",
 						content,
 						timestamp: new Date().getTime(),
@@ -106,8 +119,8 @@
 				console.log("openCallback", params);
 				let data = {
 					type: 1001,
-					from: this.$store.state.userModule.userID,
-					nick: this.$store.state.userModule.nick,
+					from: this.$store.state.userModule.userInfo.userID,
+					nick: this.$store.state.userModule.userInfo.nick,
 				};
 				this.ws.send(JSON.stringify(data));
 			},
@@ -183,7 +196,7 @@
 	#ChatPanel {
 		float: left;
 		position: relative;
-		width: 575px;
+		width: 580px;
 		height: 100%;
 		box-sizing: border-box;
 		border: 1px solid gray;
@@ -196,6 +209,20 @@
 		height: 80px;
 		box-sizing: border-box;
 		border-bottom: 1px solid gray;
+	}
+
+	.title-avatar {
+		float: left;
+		width: 60px;
+		height: 60px;
+		margin: 6px;
+		border: 4px solid rgb(114, 114, 114);
+		border-radius: 5px;
+	}
+
+	.title-avatar-img {
+		width: 100%;
+		height: 100%;
 	}
 
 	.showMsg {
@@ -300,16 +327,17 @@
 		word-break: break-all;
 		border-radius: 8px;
 		box-sizing: border-box;
-		padding: 5px;
+		padding: 7px;
 		background: rgb(96, 234, 244);
 		margin: 5px 0;
+		font-size: 17px;
 	}
 
 	.otherMsg .msgContain::before {
 		position: absolute;
 		content: "";
 		left: -16px;
-		top: 8px;
+		top: 7px;
 		border: 8px solid rgb(96, 234, 244);
 		border-right: 8px solid rgb(96, 234, 244);
 		border-top: 8px solid #ffffff00;
@@ -321,7 +349,7 @@
 		position: absolute;
 		content: "";
 		right: -16px;
-		top: 8px;
+		top: 7px;
 		border: 8px solid rgb(96, 234, 244);
 		border-right: 8px solid #ffffff00;
 		border-top: 8px solid #ffffff00;

@@ -1,5 +1,5 @@
 <template>
-	<div id="ChatInfo"></div>
+	<div class="ChatInfo"></div>
 </template>
 
 <script>
@@ -7,12 +7,13 @@
 </script>
 
 <style scoped>
-	#ChatInfo {
+	.ChatInfo {
 		float: left;
 		position: relative;
-		width: 25%;
+		width: 320px;
 		height: 100%;
 		box-sizing: border-box;
 		border: 1px solid gray;
+		border-left: none;
 	}
 </style>
