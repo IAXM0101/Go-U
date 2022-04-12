@@ -43,8 +43,7 @@
 </template>
 
 <script>
-	import axios from "axios";
-	import qs from "Qs";
+	import { mapActions } from "vuex";
 
 	export default {
 		data() {
@@ -65,6 +64,9 @@
 			},
 		},
 		methods: {
+			...mapActions({
+				get_chatList: "get_chatList",
+			}),
 			isMyMsg(from) {
 				return from === this.$store.state.userModule.userID
 					? "myMsg"
@@ -91,16 +93,17 @@
 			sendImg() {
 				document.getElementById("file").click();
 			},
-			initWebSocket(wsurl, userID, password) {
-				this.ws = new WebSocket(
-					`ws://${wsurl}?userID=${userID}&password=${password}`
-				);
+			initWebSocket(wsurl) {
+				let userID = this.$store.state.userModule.userInfo.userID;
+				console.log(wsurl, userID);
+				this.ws = new WebSocket(`ws://${wsurl}?userID=${userID}`);
 				this.ws.onopen = this.openCallback.bind(this);
 				this.ws.onmessage = this.messageCallback.bind(this);
 				this.ws.onerror = this.errorCallback.bind(this);
 				this.ws.onclose = this.closeCallback.bind(this);
 			},
 			openCallback(params) {
+				console.log("openCallback", params);
 				let data = {
 					type: 1001,
 					from: this.$store.state.userModule.userID,
@@ -109,6 +112,8 @@
 				this.ws.send(JSON.stringify(data));
 			},
 			messageCallback(params) {
+				console.log("messageCallback", params);
+
 				let data = JSON.parse(params.data);
 
 				if (data.msgType === "text") {
@@ -124,23 +129,12 @@
 		},
 		created() {
 			let self = this;
-			let url = this.$store.state.serverAPI.chat;
-			let userID = this.$store.state.userModule.userID;
-			let password = this.$store.state.userModule.password;
-			let params = {
-				userID,
-				password,
-			};
-			axios
-				.post(url, qs.stringify(params))
-				.then(function (res) {
-					self.initWebSocket(res.data.result.ip, userID, password);
-					self.$store.commit({
-						type: "updateChatList",
-						chatList: res.data.result.chatList,
-					});
+
+			this.get_chatList()
+				.then((data) => {
+					self.initWebSocket(data.ip);
 				})
-				.catch(function (err) {
+				.catch((err) => {
 					console.log(err);
 				});
 
