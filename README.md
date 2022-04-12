@@ -1,21 +1,15 @@
-# go-u
+[TOC]
 
-> A Vue.js project
+# 登录、注册
 
-## Build Setup
+# 搜索商品
 
-``` bash
-# install dependencies
-npm install
+## 懒加载
 
-# serve with hot reload at localhost:8080
-npm run dev
+# 查看商品
 
-# build for production with minification
-npm run build
+## 图片放大镜
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+# 添加购物车
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# 聊天功能
