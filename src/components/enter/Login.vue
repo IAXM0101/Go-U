@@ -40,7 +40,7 @@
 				this.sendLogin({
 					data: this.formdata,
 				})
-					.then(() => {
+					.then((data) => {
 						if (self.$route.query.redirect) {
 							self.$router.push({ path: self.$route.query.redirect });
 						} else {
@@ -48,8 +48,7 @@
 						}
 
 						this.getCart({
-							api: this.$store.state.serverAPI.getCart,
-							data: this.formdata,
+							token: data.token,
 						});
 					})
 					.catch((err) => {

@@ -1,4 +1,5 @@
-import Vue from 'vue'
+import Vue from 'vue';
+import store from '@/vuex/store';
 import qs from "Qs";
 
 export default {
@@ -41,8 +42,10 @@ export default {
         get_cartList({ commit, state }, payload) {
             Vue.axios
                 .post(
-                    payload.api,
-                    qs.stringify(payload.data)
+                    store.state.serverAPI.getCart,
+                    qs.stringify({
+                        token: payload.token
+                    })
                 )
                 .then(function (res) {
                     commit({
