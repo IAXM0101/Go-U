@@ -27,7 +27,7 @@
 		<!-- 聊天 -->
 		<router-link to="/chat" tag="div" v-if="!hideChat">
 			<i class="iconfont icon-duihua"></i>
-			<div class="msg" :class="{ hide: cartCount }">{{ chatCount }}</div>
+			<div class="msg" :class="{ hide: chatCount }">{{ chatCount }}</div>
 		</router-link>
 		<!-- 主页 -->
 		<router-link to="/" tag="div" v-if="!hideHome">
