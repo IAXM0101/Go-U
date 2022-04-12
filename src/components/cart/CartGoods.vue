@@ -33,7 +33,12 @@
 							type="checkbox"
 							v-model="item.isCheck"
 							@click="
-								checkItem('solo', item.cartID, !item.isCheck)
+								checkItem(
+									'single',
+									!item.isCheck,
+									item.cartID,
+									index
+								)
 							"
 						/>
 					</div>
@@ -119,6 +124,7 @@
 		},
 		methods: {
 			...mapActions({
+				modify_check_cartItem: "modify_check_cartItem",
 				del_cartItem: "del_cartItem",
 			}),
 			/* 调整商品数量 */
@@ -153,32 +159,20 @@
 					this.cartList[index].count * this.cartList[index].price;
 			},
 			/* 选中商品 */
-			checkItem(type, cartID, isCheck) {
-				let self = this;
-				let url = this.$store.state.serverAPI.modifyCart;
+			checkItem(type, isCheck, cartID, index) {
 				let params = {
 					cartID,
-					userID: this.$store.state.userModule.userID,
-					password: this.$store.state.userModule.password,
+					index,
 				};
-				if (type === "solo") {
-					params.type = "single";
+				if (type === "single") {
+					params.type = type;
 					params.isCheck = Number(isCheck);
 				} else {
 					params.type = "all";
 					params.isCheck = Number(type);
 				}
 
-				this.$axios
-					.post(url, qs.stringify(params))
-					.then(function (res) {
-						if (res.data.state === "succeed") {
-							console.log("修改成功");
-						}
-					})
-					.catch(function (err) {
-						console.log(err);
-					});
+				this.modify_check_cartItem(params);
 			},
 			/* 删除商品 */
 			deleteItem(cartID, index) {
@@ -215,7 +209,7 @@
 				}
 
 				this.$store.commit({
-					type: "updateOrderInfo",
+					type: "mutation_create_orderInfo",
 					orderInfo: params,
 				});
 
