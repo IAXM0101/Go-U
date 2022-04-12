@@ -21,7 +21,7 @@ export default {
                 JSON.stringify(state.cartList)
             );
         },
-        addCartList(state, payload) {
+        mutation_add_cartItem(state, payload) {
             state.cartList.push(payload.params);
 
             sessionStorage.setItem(
@@ -52,6 +52,26 @@ export default {
                         type: "mutation_get_cartList",
                         cartList: res.data,
                     });
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+        },
+        add_cartItem({ commit, state }, payload) {
+            let params = payload.params
+            Vue.axios
+                .post(store.state.serverAPI.addCart, qs.stringify({
+                    token: store.state.userModule.token,
+                    params: JSON.stringify(params)
+                }))
+                .then(function (res) {
+                    if (res.data.state) {
+                        params.cartID = res.data.result.insertId;
+                        commit({
+                            type: "mutation_add_cartItem",
+                            params,
+                        });
+                    }
                 })
                 .catch(function (err) {
                     console.log(err);

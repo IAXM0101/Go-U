@@ -76,11 +76,11 @@
 </template>
 
 <script>
-	import qs from "Qs";
 	import Util from "@/assets/js/util";
 	import GoodsMagnify from "@/components/goods/GoodsMagnify";
 	import GoodsOption from "@/components/goods/GoodsOption";
 
+	import { mapGetters, mapActions } from "vuex";
 	export default {
 		data() {
 			return {
@@ -94,8 +94,16 @@
 				},
 			};
 		},
+		computed: {
+			...mapGetters({
+				userID: "getUserID",
+			}),
+		},
 		props: ["goodsInfo", "modelList"],
 		methods: {
+			...mapActions({
+				add_cartItem: "add_cartItem",
+			}),
 			choice(idx) {
 				this.idx = idx;
 
@@ -108,10 +116,8 @@
 				Util.deepcopy(this.model, this.modelList[this.idx]);
 			},
 			joinCart() {
-				let self = this;
 				let params = {
-					userID: this.$store.state.userModule.userID,
-					password: this.$store.state.userModule.password,
+					userID: this.userID,
 					goodsID: this.goodsInfo.goodsID,
 					imgUrl: this.goodsInfo.image,
 					name: this.goodsInfo.name,
@@ -122,20 +128,8 @@
 					count: this.goodsCount,
 					totalPrice: this.model.price * this.goodsCount,
 				};
-				this.$axios
-					.post(this.$store.state.serverAPI.addCart, qs.stringify(params))
-					.then(function (res) {
-						if (res.data.state) {
-							params.cartID = res.data.result.insertId;
-							self.$store.commit({
-								type: "addCartList",
-								params,
-							});
-						}
-					})
-					.catch(function (err) {
-						console.log(err);
-					});
+
+				this.add_cartItem({ params });
 			},
 		},
 		components: {
