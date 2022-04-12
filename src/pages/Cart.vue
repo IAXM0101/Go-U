@@ -1,6 +1,6 @@
 <template>
 	<div id="ShoppingCart">
-		<Topbar :type="2" :width="1100" />
+		<Topbar :type="2" :width="'1100'" />
 
 		<Sidebar :hideCart="true" />
 

@@ -1,6 +1,6 @@
 <template>
-	<div id="Topbar" :style="{ width: width + 'px' }">
-		<div>
+	<div class="contain">
+		<div class="Topbar-contain" :style="{ width: width + 'px' }">
 			<router-link to="/" tag="div" class="logo-contain">
 				<img src="@/assets/imgs/logo.png" alt="" class="logo-img" />
 				<span class="logo-text">拼拼多</span>
@@ -53,9 +53,9 @@
 </script>
 
 <style scoped>
-	#Topbar {
+	.Topbar-contain{
 		position: relative;
-		width: 1250px;
+		width: 1100px;
 		height: 100px;
 		margin: 0 auto;
 		overflow: hidden;
