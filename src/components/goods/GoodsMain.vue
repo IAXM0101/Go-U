@@ -129,7 +129,9 @@
 					totalPrice: this.model.price * this.goodsCount,
 				};
 
-				this.add_cartItem({ params });
+				this.add_cartItem({ params }).then(()=>{
+					alert("添加成功！")
+				});
 			},
 		},
 		components: {

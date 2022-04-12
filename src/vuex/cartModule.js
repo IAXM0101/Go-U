@@ -80,24 +80,28 @@ export default {
                 });
         },
         add_cartItem({ commit, state }, payload) {
-            let params = payload.params
-            Vue.axios
-                .post(store.state.serverAPI.addCart, qs.stringify({
-                    token: store.state.userModule.token,
-                    params: JSON.stringify(params)
-                }))
-                .then(function (res) {
-                    if (res.data.state) {
-                        params.cartID = res.data.result.insertId;
-                        commit({
-                            type: "mutation_add_cartItem",
-                            params,
-                        });
-                    }
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
+            return new Promise((resole, reject) => {
+                let params = payload.params;
+                Vue.axios
+                    .post(store.state.serverAPI.addCart, qs.stringify({
+                        token: store.state.userModule.token,
+                        params: JSON.stringify(params)
+                    }))
+                    .then(function (res) {
+                        if (res.data.state) {
+                            params.cartID = res.data.result.insertId;
+                            commit({
+                                type: "mutation_add_cartItem",
+                                params,
+                            });
+                        }
+                        resole()
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject()
+                    });
+            })
         },
         modify_check_cartItem({ commit, state }, payload) {
             Vue.axios
