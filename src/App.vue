@@ -11,7 +11,7 @@
 			let cartList = JSON.parse(sessionStorage.getItem("cartList"));
 			if (cartList && cartList.length > 0) {
 				this.$store.commit({
-					type: "update_cartList",
+					type: "mutation_get_cartList",
 					cartList: JSON.parse(sessionStorage.getItem("cartList")),
 				});
 			}

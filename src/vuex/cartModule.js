@@ -12,7 +12,7 @@ export default {
         }
     },
     mutations: {
-        update_cartList(state, payload) {
+        mutation_get_cartList(state, payload) {
             state.cartList = payload.cartList;
 
             sessionStorage.setItem(
@@ -46,7 +46,7 @@ export default {
                 )
                 .then(function (res) {
                     commit({
-                        type: "update_cartList",
+                        type: "mutation_get_cartList",
                         cartList: res.data,
                     });
                 })
