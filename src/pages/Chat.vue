@@ -3,7 +3,7 @@
 		<Sidebar :hideChat="true" />
 
 		<div class="chat-panel">
-			<Chating />
+			<ChatList />
 			<ChatPanel />
 			<ChatInfo />
 		</div>
@@ -13,13 +13,13 @@
 <script>
 	import Sidebar from "@/components/public/Sidebar";
 
-	import Chating from "@/components/chat/Chating";
+	import ChatList from "@/components/chat/ChatList";
 	import ChatPanel from "@/components/chat/ChatPanel";
 	import ChatInfo from "@/components/chat/ChatInfo";
 	export default {
 		components: {
 			Sidebar,
-			Chating,
+			ChatList,
 			ChatPanel,
 			ChatInfo,
 		},
