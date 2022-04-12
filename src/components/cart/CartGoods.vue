@@ -93,6 +93,7 @@
 
 <script>
 	import qs from "Qs";
+	import { mapActions } from "vuex";
 	export default {
 		computed: {
 			cartList() {
@@ -117,6 +118,9 @@
 			},
 		},
 		methods: {
+			...mapActions({
+				del_cartItem: "del_cartItem",
+			}),
 			/* 调整商品数量 */
 			modifiyPrice(index, num) {
 				this.cartList[index].count += num;
@@ -178,25 +182,13 @@
 			},
 			/* 删除商品 */
 			deleteItem(cartID, index) {
-				let self = this;
-				let url = this.$store.state.serverAPI.deleteCart;
-				let params = {
-					cartID,
-					userID: this.$store.state.userModule.userID,
-					password: this.$store.state.userModule.password,
-					type: "single",
-				};
-
-				this.$axios
-					.post(url, qs.stringify(params))
-					.then(function (res) {
-						if (res.data.state === "succeed") {
-							self.cartList.splice(index, 1);
-						}
-					})
-					.catch(function (err) {
-						console.log(err);
-					});
+				this.del_cartItem({
+					params: {
+						cartID,
+						index,
+						type: "single",
+					},
+				});
 			},
 			/* 获取选中的商品，生成订单 */
 			createOrder() {
@@ -227,7 +219,7 @@
 					orderInfo: params,
 				});
 
-				this.$router.push({name:"order"})
+				this.$router.push({ name: "order" });
 			},
 		},
 	};

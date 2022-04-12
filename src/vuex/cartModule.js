@@ -29,13 +29,21 @@ export default {
                 JSON.stringify(state.cartList)
             );
         },
-        updateOrderInfo(state, payload) {
-            state.orderInfo = payload.orderInfo;
+        mutation_del_cartItem(state, payload) {
+            state.cartList.splice(payload.index, 1);
+
+            sessionStorage.setItem(
+                "cartList",
+                JSON.stringify(state.cartList)
+            );
         },
         mutation_clear_cartList(state, payload) {
             state.cartList = [];
 
             sessionStorage.removeItem("cartList");
+        },
+        updateOrderInfo(state, payload) {
+            state.orderInfo = payload.orderInfo;
         },
     },
     actions: {
@@ -71,6 +79,24 @@ export default {
                             type: "mutation_add_cartItem",
                             params,
                         });
+                    }
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+        },
+        del_cartItem({ commit, state }, payload) {
+            Vue.axios
+                .post(store.state.serverAPI.deleteCart, qs.stringify({
+                    token: store.state.userModule.token,
+                    params: JSON.stringify(payload.params)
+                }))
+                .then(function (res) {
+                    if (res.data.state === "succeed") {
+                        commit({
+                            type: "mutation_del_cartItem",
+                            index: payload.params.index,
+                        })
                     }
                 })
                 .catch(function (err) {
