@@ -66,12 +66,11 @@
 		},
 		computed: {
 			...mapGetters({
+				getUserID: "getUserID",
+				getNick: "getNick",
 				getTalker: "getTalker",
 				getChatAvatar: "getChatAvatar",
 			}),
-			userNick() {
-				return this.$store.state.userModule.userInfo.nick;
-			},
 			userAvatar() {
 				return this.$store.state.userModule.userInfo.avatar;
 			},
@@ -81,7 +80,7 @@
 				get_chatList: "get_chatList",
 			}),
 			isMyMsg(from) {
-				return from === this.$store.state.userModule.userInfo.userID
+				return from === this.getUserID
 					? "myMsg"
 					: "otherMsg";
 			},
@@ -92,8 +91,8 @@
 					let data = {
 						type: 1002,
 						to: this.getTalker,
-						from: this.$store.state.userModule.userInfo.userID,
-						nick: this.$store.state.userModule.userInfo.nick,
+						from: this.getUserID,
+						nick: this.getNick,
 						msgType: "text",
 						content,
 						timestamp: new Date().getTime(),
@@ -107,9 +106,7 @@
 				document.getElementById("file").click();
 			},
 			initWebSocket(wsurl) {
-				let userID = this.$store.state.userModule.userInfo.userID;
-				console.log(wsurl, userID);
-				this.ws = new WebSocket(`ws://${wsurl}?userID=${userID}`);
+				this.ws = new WebSocket(`ws://${wsurl}?userID=${this.getUserID}`);
 				this.ws.onopen = this.openCallback.bind(this);
 				this.ws.onmessage = this.messageCallback.bind(this);
 				this.ws.onerror = this.errorCallback.bind(this);
@@ -119,8 +116,8 @@
 				console.log("openCallback", params);
 				let data = {
 					type: 1001,
-					from: this.$store.state.userModule.userInfo.userID,
-					nick: this.$store.state.userModule.userInfo.nick,
+					from: this.getUserID,
+					nick: this.getNick,
 				};
 				this.ws.send(JSON.stringify(data));
 			},

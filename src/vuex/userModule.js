@@ -30,6 +30,9 @@ export default {
 		getUserID(state, getters) {
 			return state.userInfo.userID
 		},
+		getNick(state, getters) {
+			return state.userInfo.nick
+		},
 		getAvatar(state, getters) {
 			return state.userInfo.avatar ? state.userInfo.avatar : "https://tse1-mm.cn.bing.net/th/id/OIP-C.JPaFw0vH2f6Qy44aUfZ4jgAAAA?pid=ImgDet&rs=1"
 		},
