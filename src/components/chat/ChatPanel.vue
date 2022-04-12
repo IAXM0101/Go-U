@@ -17,7 +17,7 @@
 			>
 				<!-- 头像 -->
 				<div class="avatarContain">
-					<img :src="userAvatar" />
+					<img :src="userAvatar(item.from)" />
 				</div>
 				<!-- 昵称 -->
 				<span class="nickContain">{{ item.nick }}</span>
@@ -68,21 +68,22 @@
 			...mapGetters({
 				getUserID: "getUserID",
 				getNick: "getNick",
+				getAvatar: "getAvatar",
 				getTalker: "getTalker",
 				getChatAvatar: "getChatAvatar",
 			}),
-			userAvatar() {
-				return this.$store.state.userModule.userInfo.avatar;
-			},
 		},
 		methods: {
 			...mapActions({
 				get_chatList: "get_chatList",
 			}),
 			isMyMsg(from) {
+				return from === this.getUserID ? "myMsg" : "otherMsg";
+			},
+			userAvatar(from) {
 				return from === this.getUserID
-					? "myMsg"
-					: "otherMsg";
+					? this.getAvatar
+					: this.getChatAvatar;
 			},
 			sendText() {
 				let content = this.$refs.textarea.innerHTML;
@@ -136,6 +137,29 @@
 			closeCallback(params) {
 				console.log("closeCallback", params);
 			},
+			setEnterFunction() {
+				let self = this;
+
+				document.onkeydown = function (ev) {
+					// 实现 ctrl + enter 换行，有bug，需要用两次才能换行
+					if (ev.ctrlKey && ev.keyCode === 13) {
+						ev.preventDefault(); //禁用回车的默认事件
+						self.$refs.textarea.innerHTML += "<br/>";
+						if (window.getSelection) {
+							self.$refs.textarea.focus(); //解决ff不获取焦点无法定位问题
+							let range = window.getSelection(); //创建range
+							range.selectAllChildren(self.$refs.textarea); //range 选择obj下所有子内容
+							range.collapseToEnd(); //光标移至最后
+						}
+						return;
+					}
+
+					if (ev.keyCode === 13) {
+						ev.preventDefault(); //禁用回车的默认事件
+						self.sendText();
+					}
+				};
+			},
 		},
 		created() {
 			let self = this;
@@ -148,33 +172,7 @@
 					console.log(err);
 				});
 
-			// document.onkeydown = function (ev) {
-
-			// 		ev.preventDefault(); //禁用回车的默认事件
-			// };
-
-			let onCtrl = false;
-			let onEnter = false;
-			document.onkeydown = function (ev) {
-				if (ev.keyCode == 13) {
-					onCtrl = true;
-				}
-				if (ev.keyCode == 17) {
-					onEnter = true;
-				}
-
-				if (onCtrl && onEnter) {
-					console.log("555");
-				}
-			};
-			document.onkeyup = function (ev) {
-				if (ev.keyCode == 13) {
-					onCtrl = false;
-				}
-				if (ev.keyCode == 17) {
-					onEnter = false;
-				}
-			};
+			this.setEnterFunction();
 		},
 		updated() {
 			if (
