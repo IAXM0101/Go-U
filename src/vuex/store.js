@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 import serverAPI from './serverAPI';
 import userModule from './userModule';
 import cartModule from './cartModule';
-import chat from './chat';
+import chatModule from './chatModule';
 
 Vue.use(Vuex);
 
@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
-        serverAPI, userModule, cartModule, chat
+        serverAPI, userModule, cartModule, chatModule
     }
 });
 

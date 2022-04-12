@@ -23,7 +23,7 @@
 				return this.$store.state.userModule.avatar;
 			},
 			chatList() {
-				return this.$store.state.chat.chatList;
+				return this.$store.state.chatModule.chatList;
 			},
 		},
 		methods: {
