@@ -32,7 +32,7 @@ export default {
         updateOrderInfo(state, payload) {
             state.orderInfo = payload.orderInfo;
         },
-        removeCartList(state, payload) {
+        mutation_clear_cartList(state, payload) {
             state.cartList = [];
 
             sessionStorage.removeItem("cartList");
