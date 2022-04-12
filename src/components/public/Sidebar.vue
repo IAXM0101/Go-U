@@ -56,7 +56,7 @@
 		},
 		methods: {
 			logout() {
-				this.$store.commit("removeUserInfo");
+				this.$store.commit("mutation_remove_userInfo");
 				this.$store.commit("removeCartList");
 				this.$router.push({ name: "login" });
 			},

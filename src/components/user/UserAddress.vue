@@ -78,7 +78,7 @@
 		methods: {
 			...mapActions({
 				get_addrList: "get_addrList",
-				del_addr: "del_addr",
+				del_addrItem: "del_addrItem",
 				edit_default_addr: "edit_default_addr",
 			}),
 			popup() {
@@ -95,7 +95,7 @@
 				this.canEditAddress = true;
 			},
 			delAddrClick(addrID) {
-				this.del_addr(addrID)
+				this.del_addrItem(addrID)
 					.then(() => {
 						alert("删除成功");
 					})

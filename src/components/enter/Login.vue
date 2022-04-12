@@ -32,15 +32,14 @@
 		methods: {
 			...mapActions({
 				sendLogin: "send_login",
-				getCart:"get_cartList"
+				getCart: "get_cartList",
 			}),
 			loginCilck() {
 				let self = this;
 
 				this.sendLogin({
-						api: this.$store.state.serverAPI.login,
-						data: this.formdata
-					})
+					data: this.formdata,
+				})
 					.then(() => {
 						if (self.$route.query.redirect) {
 							self.$router.push({ path: self.$route.query.redirect });
@@ -50,7 +49,7 @@
 
 						this.getCart({
 							api: this.$store.state.serverAPI.getCart,
-							data: this.formdata
+							data: this.formdata,
 						});
 					})
 					.catch((err) => {

@@ -98,7 +98,7 @@
 		},
 		methods: {
 			...mapActions({
-				add_addr: "add_addr",edit_addr:"edit_addr"
+				add_addrItem: "add_addrItem",edit_addrItem:"edit_addrItem"
 			}),
 			closeClick() {
 				this.$parent.canEditAddress = false;
@@ -110,7 +110,7 @@
 			submit() {
 				let self = this;
 				if (this.canSend) {
-					this.add_addr({
+					this.add_addrItem({
 						name: this.name,
 						region: this.region,
 						addr: this.addr,
@@ -131,7 +131,7 @@
 			editClick() {
 				let self = this;
 				if (this.canSend) {
-					this.edit_addr({
+					this.edit_addrItem({
 						addrID: this.addrID,
 						name: this.name,
 						region: this.region,

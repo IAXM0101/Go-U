@@ -44,7 +44,7 @@ export default {
 		},
 	},
 	mutations: {
-		addAllInfo(state, payload) {
+		mutation_get_loginInfo(state, payload) {
 			state.token = payload.token
 			state.userInfo = payload.userInfo
 
@@ -54,7 +54,7 @@ export default {
 				JSON.stringify(state.userInfo)
 			);
 		},
-		update_userInfo(state, payload) {
+		mutation_modify_userInfo(state, payload) {
 			for (const key in payload) {
 				if (Object.hasOwnProperty.call(payload, key)) {
 					state.userInfo[key] = payload[key];
@@ -65,7 +65,7 @@ export default {
 				JSON.stringify(state.userInfo)
 			);
 		},
-		removeUserInfo(state) {
+		mutation_remove_userInfo(state) {
 			for (const key in state) {
 				if (Object.hasOwnProperty.call(state, key)) {
 					state[key] = null;
@@ -74,13 +74,13 @@ export default {
 			sessionStorage.removeItem("token");
 			sessionStorage.removeItem("userInfo");
 		},
-		update_addrList(state, payload) {
+		mutation_get_addrList(state, payload) {
 			state.addrList = payload;
 		},
-		update_addr(state, payload) {
+		mutation_add_addrItem(state, payload) {
 			state.addrList.push(payload);
 		},
-		mutation_edit_addr(state, payload) {
+		mutation_edit_addrItem(state, payload) {
 			let addr = state.addrList.find(value => value.addrID == payload.addrID);
 			for (const key in addr) {
 				if (Object.hasOwnProperty.call(addr, key)) {
@@ -96,7 +96,7 @@ export default {
 				}
 			});
 		},
-		mutation_del_addr(state, payload) {
+		mutation_del_addrItem(state, payload) {
 			let idx = state.addrList.findIndex(value => value.addrID == payload)
 			state.addrList.splice(idx, 1);
 		},
@@ -106,11 +106,11 @@ export default {
 			return new Promise((resolve, reject) => {
 				Vue.axios
 					.post(
-						payload.api,
+						store.state.serverAPI.login,
 						qs.stringify(payload.data)
 					)
 					.then(function (res) {
-						commit("addAllInfo", {
+						commit("mutation_get_loginInfo", {
 							token: res.data.token,
 							userInfo: res.data.userInfo
 						});
@@ -134,7 +134,7 @@ export default {
 					)
 					.then(function (res) {
 						if (res.data.state) {
-							commit("update_userInfo", payload);
+							commit("mutation_modify_userInfo", payload);
 							resolve();
 						}
 					})
@@ -173,14 +173,14 @@ export default {
 				)
 				.then(function (res) {
 					if (res.data.state) {
-						commit("update_addrList", res.data.result);
+						commit("mutation_get_addrList", res.data.result);
 					}
 				})
 				.catch(function (err) {
 					console.log(err);
 				});
 		},
-		add_addr({ commit, state }, payload) {
+		add_addrItem({ commit, state }, payload) {
 			return new Promise((resolve, reject) => {
 				Vue.axios
 					.post(
@@ -197,7 +197,7 @@ export default {
 					)
 					.then(function (res) {
 						if (res.data.state) {
-							commit("update_addr", payload);
+							commit("mutation_add_addrItem", payload);
 							resolve();
 						}
 					})
@@ -206,7 +206,7 @@ export default {
 					});
 			})
 		},
-		edit_addr({ commit, state }, payload) {
+		edit_addrItem({ commit, state }, payload) {
 			return new Promise((resolve, reject) => {
 				Vue.axios
 					.post(
@@ -224,7 +224,7 @@ export default {
 					)
 					.then(function (res) {
 						if (res.data.state) {
-							commit("mutation_edit_addr", payload);
+							commit("mutation_edit_addrItem", payload);
 							resolve();
 						}
 					})
@@ -251,7 +251,7 @@ export default {
 					console.log(err);
 				});
 		},
-		del_addr({ commit, state }, payload) {
+		del_addrItem({ commit, state }, payload) {
 			return new Promise((resolve, reject) => {
 				Vue.axios
 					.post(
@@ -263,7 +263,7 @@ export default {
 					)
 					.then(function (res) {
 						if (res.data.state) {
-							commit("mutation_del_addr", payload);
+							commit("mutation_del_addrItem", payload);
 							resolve();
 						}
 					})

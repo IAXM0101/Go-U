@@ -19,7 +19,7 @@
 			let token = sessionStorage.getItem("token");
 			let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 			if (token) {
-				this.$store.commit("addAllInfo", {
+				this.$store.commit("mutation_get_loginInfo", {
 					token,
 					userInfo,
 				});
