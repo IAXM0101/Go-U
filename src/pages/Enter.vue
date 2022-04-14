@@ -3,7 +3,7 @@
 		<div class="header">
 			<router-link to="/" tag="div" class="logo-contain">
 				<img src="@/assets/imgs/logo.png" alt="" class="logo-img" />
-				<span class="logo-text">拼拼多</span>
+				<span class="logo-text">GO-U</span>
 			</router-link>
 		</div>
 
