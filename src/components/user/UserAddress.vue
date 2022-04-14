@@ -9,7 +9,7 @@
 			</span>
 		</div>
 		<ul class="list">
-			<li v-for="(item, index) in addrList">
+			<li v-for="(item, index) in addrList" :key="item.addrID">
 				<div class="operate-contain">
 					<input type="radio" :value="index" v-model="defaultAddr" />
 					<label>默认地址</label>

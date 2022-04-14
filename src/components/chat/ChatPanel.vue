@@ -13,7 +13,8 @@
 			<!-- 消息 -->
 			<div
 				:class="{ [isMyMsg(item.from)]: true }"
-				v-for="item in messageList"
+				v-for="(item, index) in messageList"
+				:key="'msg' + index"
 			>
 				<!-- 头像 -->
 				<div class="avatarContain">

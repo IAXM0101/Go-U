@@ -1,6 +1,11 @@
 <template>
 	<div id="HomeProduct">
-		<div class="contain" v-for="item in productList" @click="enter(item.goodsID)">
+		<div
+			class="contain"
+			v-for="(item, index) in productList"
+			:key="item.goodsID"
+			@click="enter(item.goodsID)"
+		>
 			<img :src="item.image" />
 			<p>{{ item.name }}</p>
 			<p>{{ item.introduce }}</p>
@@ -37,7 +42,8 @@
 
 						self.$axios
 							.get(
-								`${self.$store.state.serverAPI.getAllGoods}?total=${self.productList.length
+								`${self.$store.state.serverAPI.getAllGoods}?total=${
+									self.productList.length
 								}&count=${diff * 4}`
 							)
 							.then(function (res) {

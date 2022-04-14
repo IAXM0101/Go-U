@@ -11,6 +11,7 @@
 			<li
 				v-for="(item, index) in chatList"
 				:class="[{ check: isCurChat(item) }]"
+				:key="item.chatID"
 				@click="checkChatTarget(item)"
 			>
 				<div class="avatar">

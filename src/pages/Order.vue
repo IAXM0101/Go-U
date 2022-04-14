@@ -9,6 +9,7 @@
 				<div
 					class="goods-item"
 					v-for="(item, index) in orderInfo.orderList"
+					:key="'order' + index"
 				>
 					<div>
 						<img :src="item.imgUrl" width="100%" height="100%" />

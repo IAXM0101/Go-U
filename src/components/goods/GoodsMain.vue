@@ -22,9 +22,10 @@
 				<span class="model-value" ref="radioContain">
 					<span
 						class="radio"
-						v-for="(i, idx) in modelList"
-						@click="choice(idx)"
-						v-text="i.modelName"
+						v-for="(item, index) in modelList"
+						:key="item.modelID"
+						@click="choice(index)"
+						v-text="item.modelName"
 					>
 					</span>
 				</span>

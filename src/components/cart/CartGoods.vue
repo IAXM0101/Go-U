@@ -26,7 +26,11 @@
 			</div>
 		</div>
 		<ul class="content-contain">
-			<li class="item-contain" v-for="(item, index) in cartList">
+			<li
+				class="item-contain"
+				v-for="(item, index) in cartList"
+				:key="item.cartID"
+			>
 				<div class="item-goods-contain">
 					<div>
 						<input

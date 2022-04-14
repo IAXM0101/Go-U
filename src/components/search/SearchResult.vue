@@ -1,6 +1,6 @@
 <template>
 	<div id="SearchResult">
-		<div class="item-contain" v-for="item in goodsList">
+		<div class="item-contain" v-for="item in goodsList" :key="item.goodsID">
 			<router-link
 				:to="{
 					path: '/goods',

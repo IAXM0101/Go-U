@@ -1,7 +1,7 @@
 <template>
 	<div id="HomeSwiper">
 		<el-carousel height="500px">
-			<el-carousel-item v-for="item in imgList" :key="item">
+			<el-carousel-item v-for="item in imgList" :key="'HomeSwiper' + item">
 				<img :src="item" width="100%" height="100%" />
 			</el-carousel-item>
 		</el-carousel>
